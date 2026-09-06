@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
-import { Star, MapPin, MessageCircle, ExternalLink, ShieldCheck } from 'lucide-react';
+import { Star, MapPin, MessageCircle, ExternalLink, ShieldCheck, Send, CheckCircle2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export default function ReviewGatingPage() {
@@ -16,6 +16,12 @@ export default function ReviewGatingPage() {
   const [hoveredStar, setHoveredStar] = useState(0);
   const [selectedStar, setSelectedStar] = useState(0);
   const [isRedirecting, setIsRedirecting] = useState(false);
+
+  // Geri bildirim formu state'leri
+  const [showFeedbackForm, setShowFeedbackForm] = useState(false);
+  const [feedbackText, setFeedbackText] = useState('');
+  const [submittingFeedback, setSubmittingFeedback] = useState(false);
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
 
   useEffect(() => {
     if (!slug) return;
@@ -36,21 +42,16 @@ export default function ReviewGatingPage() {
       } else {
         setBusiness(data);
 
-        // 1. Eski toplam sayacı artır
+        // Toplam tıklamayı artır
         await supabase
           .from('isletmeler')
           .update({ toplam_tiklama: (data.toplam_tiklama || 0) + 1 })
           .eq('id', data.id);
 
-        // 2. Yeni analitik tablosuna sayfa görüntüleme logu kaydet
+        // Analitik logu
         await supabase
           .from('business_analytics')
-          .insert([
-            {
-              business_id: data.id,
-              event_type: 'page_view'
-            }
-          ]);
+          .insert([{ business_id: data.id, event_type: 'page_view' }]);
       }
       setLoading(false);
     }
@@ -60,24 +61,22 @@ export default function ReviewGatingPage() {
 
   const handleRating = async (rating) => {
     setSelectedStar(rating);
-    setIsRedirecting(true);
 
-    const isPositive = rating >= 4;
-
-    // Yıldıza tıklandığında analitik tablosuna kaydet
+    // Analitik tablosuna log düş
     if (business?.id) {
       await supabase
         .from('business_analytics')
         .insert([
           {
             business_id: business.id,
-            event_type: isPositive ? 'positive_review' : 'negative_review',
+            event_type: rating >= 4 ? 'positive_review' : 'negative_review',
             rating: rating
           }
         ]);
     }
 
-    if (isPositive) {
+    if (rating >= 4) {
+      setIsRedirecting(true);
       try {
         confetti({
           particleCount: 80,
@@ -92,13 +91,29 @@ export default function ReviewGatingPage() {
         }
       }, 1200);
     } else {
-      setTimeout(() => {
-        const mesaj = encodeURIComponent(
-          `Merhaba, ${business?.isletme_adi || 'işletmeniz'} hizmetinizden pek memnun kalmadım. Geri bildirimimi iletmek istiyorum.`
-        );
-        const tel = business?.whatsapp_telefon?.replace(/[^0-9]/g, '');
-        window.location.href = `https://wa.me/${tel}?text=${mesaj}`;
-      }, 1000);
+      // 1-3 yıldızda WhatsApp yerine dahili form açılır
+      setShowFeedbackForm(true);
+    }
+  };
+
+  const handleSendFeedback = async (e) => {
+    e.preventDefault();
+    if (!feedbackText.trim() || !business?.id) return;
+
+    setSubmittingFeedback(true);
+
+    const { error } = await supabase.from('musteri_mesajlari').insert([
+      {
+        business_id: business.id,
+        yildiz: selectedStar,
+        mesaj: feedbackText.trim()
+      }
+    ]);
+
+    setSubmittingFeedback(false);
+
+    if (!error) {
+      setFeedbackSubmitted(true);
     }
   };
 
@@ -154,46 +169,100 @@ export default function ReviewGatingPage() {
             Hizmet kalitemizi artırmamız için deneyiminizi puanlayın. Görüşleriniz bizim için çok değerli!
           </p>
 
-          <div className="bg-neutral-950/70 border border-neutral-800/80 rounded-2xl p-5 mb-5 shadow-inner">
-            <p className="text-xs uppercase tracking-widest text-neutral-400 font-semibold mb-3">
-              Deneyiminizi Puanlayın
-            </p>
-
-            <div className="flex justify-center items-center gap-2">
-              {[1, 2, 3, 4, 5].map((star) => {
-                const isActive = (hoveredStar || selectedStar) >= star;
-                return (
-                  <button
-                    key={star}
-                    type="button"
-                    disabled={isRedirecting}
-                    onMouseEnter={() => setHoveredStar(star)}
-                    onMouseLeave={() => setHoveredStar(0)}
-                    onClick={() => handleRating(star)}
-                    className="p-1 transition-transform transform active:scale-90 hover:scale-110 focus:outline-none"
-                    aria-label={`${star} Yıldız`}
-                  >
-                    <Star
-                      className={`w-8 h-8 transition-colors duration-200 ${
-                        isActive
-                          ? 'fill-amber-400 text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]'
-                          : 'text-neutral-600 fill-transparent'
-                      }`}
-                    />
-                  </button>
-                );
-              })}
-            </div>
-
-            {isRedirecting && (
-              <p className="mt-3 text-xs font-medium text-amber-400 animate-pulse">
-                {selectedStar >= 4
-                  ? 'Harika! Google Yorumlara aktarılıyorsunuz...'
-                  : 'Geri bildiriminiz için WhatsApp hattına aktarılıyorsunuz...'}
+          {/* Yıldız Değerlendirme Bölümü */}
+          {!showFeedbackForm && (
+            <div className="bg-neutral-950/70 border border-neutral-800/80 rounded-2xl p-5 mb-5 shadow-inner">
+              <p className="text-xs uppercase tracking-widest text-neutral-400 font-semibold mb-3">
+                Deneyiminizi Puanlayın
               </p>
-            )}
-          </div>
 
+              <div className="flex justify-center items-center gap-2">
+                {[1, 2, 3, 4, 5].map((star) => {
+                  const isActive = (hoveredStar || selectedStar) >= star;
+                  return (
+                    <button
+                      key={star}
+                      type="button"
+                      disabled={isRedirecting}
+                      onMouseEnter={() => setHoveredStar(star)}
+                      onMouseLeave={() => setHoveredStar(0)}
+                      onClick={() => handleRating(star)}
+                      className="p-1 transition-transform transform active:scale-90 hover:scale-110 focus:outline-none"
+                      aria-label={`${star} Yıldız`}
+                    >
+                      <Star
+                        className={`w-8 h-8 transition-colors duration-200 ${
+                          isActive
+                            ? 'fill-amber-400 text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]'
+                            : 'text-neutral-600 fill-transparent'
+                        }`}
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+
+              {isRedirecting && (
+                <p className="mt-3 text-xs font-medium text-amber-400 animate-pulse">
+                  Harika! Google Yorumlara aktarılıyorsunuz...
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* 1-3 Yıldız Seçildiğinde Açılan Dahili Geri Bildirim Formu */}
+          {showFeedbackForm && (
+            <div className="bg-neutral-950/70 border border-neutral-800/80 rounded-2xl p-5 mb-5 text-left transition-all">
+              {feedbackSubmitted ? (
+                <div className="text-center py-4 space-y-2">
+                  <CheckCircle2 className="w-10 h-10 text-emerald-400 mx-auto" />
+                  <p className="text-sm font-semibold text-white">Geri bildiriminiz iletildi!</p>
+                  <p className="text-xs text-neutral-400">
+                    Görüşlerinizi doğrudan işletme yönetimine aktardık. Deneyiminizi telafi etmek için çalışacağız.
+                  </p>
+                </div>
+              ) : (
+                <form onSubmit={handleSendFeedback} className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-semibold text-amber-400">
+                      Verilen Puan: {selectedStar} / 5 Yıldız
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setShowFeedbackForm(false)}
+                      className="text-[11px] text-neutral-500 hover:text-neutral-300"
+                    >
+                      Değiştir
+                    </button>
+                  </div>
+
+                  <p className="text-xs text-neutral-400">
+                    Sizi memnun edemediğimiz için üzgünüz. Yaşadığınız sorunu veya önerinizi doğrudan yöneticiye iletin:
+                  </p>
+
+                  <textarea
+                    required
+                    rows={4}
+                    value={feedbackText}
+                    onChange={(e) => setFeedbackText(e.target.value)}
+                    placeholder="Deneyiminizi buraya yazın..."
+                    className="w-full bg-neutral-900 border border-neutral-800 rounded-xl p-3 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-amber-400 resize-none transition"
+                  />
+
+                  <button
+                    type="submit"
+                    disabled={submittingFeedback}
+                    className="w-full bg-amber-400 hover:bg-amber-300 disabled:opacity-50 text-black font-semibold py-2.5 rounded-xl transition flex items-center justify-center gap-2 text-xs"
+                  >
+                    <Send className="w-3.5 h-3.5" />
+                    <span>{submittingFeedback ? 'Gönderiliyor...' : 'Yönetime İlet'}</span>
+                  </button>
+                </form>
+              )}
+            </div>
+          )}
+
+          {/* Sosyal Medya & İletişim Butonları */}
           <div className="flex flex-col gap-2.5">
             {business.instagram_kullanici && (
               <a

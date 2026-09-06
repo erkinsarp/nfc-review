@@ -3,7 +3,10 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
-import { Eye, ThumbsUp, MessageSquareWarning, TrendingUp, Calendar, RefreshCw, Lock, KeyRound } from 'lucide-react';
+import { 
+  Eye, ThumbsUp, MessageSquareWarning, TrendingUp, Calendar, RefreshCw, 
+  Lock, KeyRound, Star, CheckCheck, Clock 
+} from 'lucide-react';
 
 export default function BusinessDashboard() {
   const params = useParams();
@@ -14,6 +17,10 @@ export default function BusinessDashboard() {
   const [pinInput, setPinInput] = useState('');
   const [pinError, setPinError] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // Mesajlar ve Filtre
+  const [messages, setMessages] = useState([]);
+  const [filter, setFilter] = useState('all'); // 'all', 'unread', 'read'
 
   const [stats, setStats] = useState({
     todayViews: 0,
@@ -28,6 +35,7 @@ export default function BusinessDashboard() {
     if (!slug) return;
     setLoading(true);
 
+    // 1. İşletme
     const { data: bData, error: bError } = await supabase
       .from('isletmeler')
       .select('*')
@@ -40,46 +48,55 @@ export default function BusinessDashboard() {
     }
     setBusiness(bData);
 
-    const { data: analytics, error: aError } = await supabase
+    // 2. Analitik İstatistikleri
+    const { data: analytics } = await supabase
       .from('business_analytics')
       .select('*')
       .eq('business_id', bData.id);
 
-    if (aError || !analytics) {
-      setLoading(false);
-      return;
+    if (analytics) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      let tViews = 0, tPos = 0, tNeg = 0;
+      let allViews = 0, allPos = 0, allNeg = 0;
+
+      analytics.forEach((item) => {
+        const itemDate = new Date(item.created_at);
+        const isToday = itemDate >= today;
+
+        if (item.event_type === 'page_view') {
+          allViews++;
+          if (isToday) tViews++;
+        } else if (item.event_type === 'positive_review') {
+          allPos++;
+          if (isToday) tPos++;
+        } else if (item.event_type === 'negative_review') {
+          allNeg++;
+          if (isToday) tNeg++;
+        }
+      });
+
+      setStats({
+        todayViews: tViews,
+        todayPositive: tPos,
+        todayNegative: tNeg,
+        totalViews: allViews,
+        totalPositive: allPos,
+        totalNegative: allNeg,
+      });
     }
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    // 3. Müşteri Mesajlarını Çek (En yeniden eskiye)
+    const { data: mData } = await supabase
+      .from('musteri_mesajlari')
+      .select('*')
+      .eq('business_id', bData.id)
+      .order('created_at', { ascending: false });
 
-    let tViews = 0, tPos = 0, tNeg = 0;
-    let allViews = 0, allPos = 0, allNeg = 0;
-
-    analytics.forEach((item) => {
-      const itemDate = new Date(item.created_at);
-      const isToday = itemDate >= today;
-
-      if (item.event_type === 'page_view') {
-        allViews++;
-        if (isToday) tViews++;
-      } else if (item.event_type === 'positive_review') {
-        allPos++;
-        if (isToday) tPos++;
-      } else if (item.event_type === 'negative_review') {
-        allNeg++;
-        if (isToday) tNeg++;
-      }
-    });
-
-    setStats({
-      todayViews: tViews,
-      todayPositive: tPos,
-      todayNegative: tNeg,
-      totalViews: allViews,
-      totalPositive: allPos,
-      totalNegative: allNeg,
-    });
+    if (mData) {
+      setMessages(mData);
+    }
 
     setLoading(false);
   };
@@ -101,6 +118,20 @@ export default function BusinessDashboard() {
     }
   };
 
+  // Mesajın okundu/okunmadı durumunu değiştir
+  const toggleMessageRead = async (id, currentStatus) => {
+    const nextStatus = !currentStatus;
+    
+    // State'i anında güncelle
+    setMessages(messages.map(m => m.id === id ? { ...m, okundu: nextStatus } : m));
+
+    // Supabase'e yaz
+    await supabase
+      .from('musteri_mesajlari')
+      .update({ okundu: nextStatus })
+      .eq('id', id);
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-neutral-950 flex items-center justify-center text-neutral-400 font-sans">
@@ -117,7 +148,7 @@ export default function BusinessDashboard() {
     );
   }
 
-  // Şifre Giriş Ekranı
+  // Giriş Ekranı
   if (!isAuthenticated) {
     return (
       <main className="min-h-screen bg-neutral-950 flex items-center justify-center p-4 font-sans text-white">
@@ -129,19 +160,17 @@ export default function BusinessDashboard() {
           <p className="text-xs text-neutral-400 mt-1 mb-6">Yönetici Paneli Girişi</p>
 
           <form onSubmit={handleLogin} className="space-y-4">
-            <div className="relative">
-              <input
-                type="password"
-                maxLength={8}
-                value={pinInput}
-                onChange={(e) => {
-                  setPinInput(e.target.value);
-                  setPinError(false);
-                }}
-                placeholder="Şifreyi girin"
-                className="w-full bg-neutral-950 border border-neutral-800 focus:border-amber-400 rounded-xl px-4 py-3 text-center tracking-widest text-lg outline-none transition"
-              />
-            </div>
+            <input
+              type="password"
+              maxLength={8}
+              value={pinInput}
+              onChange={(e) => {
+                setPinInput(e.target.value);
+                setPinError(false);
+              }}
+              placeholder="Şifreyi girin (Varsayılan: 1234)"
+              className="w-full bg-neutral-950 border border-neutral-800 focus:border-amber-400 rounded-xl px-4 py-3 text-center tracking-widest text-lg outline-none transition"
+            />
 
             {pinError && (
               <p className="text-xs text-red-400 font-medium">Hatalı şifre, tekrar deneyin.</p>
@@ -160,20 +189,27 @@ export default function BusinessDashboard() {
     );
   }
 
+  const filteredMessages = messages.filter(m => {
+    if (filter === 'unread') return !m.okundu;
+    if (filter === 'read') return m.okundu;
+    return true;
+  });
+
+  const unreadCount = messages.filter(m => !m.okundu).length;
   const successRate = stats.totalViews > 0 
     ? Math.round(((stats.totalPositive) / (stats.totalPositive + stats.totalNegative || 1)) * 100) 
     : 100;
 
   return (
     <main className="min-h-screen bg-neutral-950 text-white font-sans p-4 sm:p-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto space-y-8">
         
         {/* Üst Başlık */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-neutral-800 pb-6 mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-neutral-800 pb-6">
           <div>
             <span className="text-xs uppercase tracking-widest text-amber-400 font-bold">Yönetici Paneli</span>
             <h1 className="text-2xl sm:text-3xl font-bold mt-1 text-white">{business.isletme_adi}</h1>
-            <p className="text-xs text-neutral-400 mt-1">NFC Kart & Değerlendirme İstatistikleri</p>
+            <p className="text-xs text-neutral-400 mt-1">İstatistikler ve Müşteri Bildirimleri</p>
           </div>
           <div className="flex items-center gap-2">
             <button 
@@ -192,8 +228,8 @@ export default function BusinessDashboard() {
           </div>
         </div>
 
-        {/* Bugünün Özeti */}
-        <div className="mb-8">
+        {/* Bugünün İstatistikleri */}
+        <div>
           <div className="flex items-center gap-2 mb-4 text-sm font-semibold text-neutral-300">
             <Calendar className="w-4 h-4 text-amber-400" />
             <span>Bugünün İstatistikleri</span>
@@ -202,7 +238,7 @@ export default function BusinessDashboard() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="bg-neutral-900/60 border border-neutral-800/80 rounded-2xl p-5">
               <div className="flex items-center justify-between text-neutral-400 mb-2">
-                <span className="text-xs font-medium uppercase tracking-wider">Bugün Okutma</span>
+                <span className="text-xs font-medium uppercase tracking-wider">Bugün Dokunma</span>
                 <Eye className="w-4 h-4 text-blue-400" />
               </div>
               <p className="text-3xl font-bold text-white">{stats.todayViews}</p>
@@ -215,7 +251,7 @@ export default function BusinessDashboard() {
                 <ThumbsUp className="w-4 h-4 text-emerald-400" />
               </div>
               <p className="text-3xl font-bold text-emerald-400">{stats.todayPositive}</p>
-              <p className="text-[11px] text-neutral-500 mt-1">4 ve 5 yıldız verenler</p>
+              <p className="text-[11px] text-neutral-500 mt-1">4 ve 5 yıldızlı mutlu müşteriler</p>
             </div>
 
             <div className="bg-neutral-900/60 border border-neutral-800/80 rounded-2xl p-5">
@@ -224,12 +260,125 @@ export default function BusinessDashboard() {
                 <MessageSquareWarning className="w-4 h-4 text-amber-400" />
               </div>
               <p className="text-3xl font-bold text-amber-400">{stats.todayNegative}</p>
-              <p className="text-[11px] text-neutral-500 mt-1">WhatsApp'a yönlendirilenler</p>
+              <p className="text-[11px] text-neutral-500 mt-1">İç havuza iletilen mesajlar</p>
             </div>
           </div>
         </div>
 
-        {/* Tüm Zamanlar Özeti */}
+        {/* Müşteri Geri Bildirimleri & Şikayetler (ÖZEL HAVUZ) */}
+        <div className="bg-neutral-900/50 border border-neutral-800 rounded-3xl p-5 sm:p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <h2 className="text-lg font-bold flex items-center gap-2">
+                <MessageSquareWarning className="w-5 h-5 text-amber-400" />
+                <span>Gelen Özel Şikayet ve Bildirimler</span>
+              </h2>
+              <p className="text-xs text-neutral-400 mt-0.5">
+                1-3 yıldız veren müşterilerin Google'a gitmeden doğrudan buraya ilettiği notlar
+              </p>
+            </div>
+
+            {/* Filtre Sekmeleri */}
+            <div className="inline-flex bg-neutral-950 p-1 rounded-xl border border-neutral-800 text-xs">
+              <button
+                onClick={() => setFilter('all')}
+                className={`px-3 py-1.5 rounded-lg transition ${
+                  filter === 'all' ? 'bg-neutral-800 text-white font-medium' : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                Tümü ({messages.length})
+              </button>
+              <button
+                onClick={() => setFilter('unread')}
+                className={`px-3 py-1.5 rounded-lg transition ${
+                  filter === 'unread' ? 'bg-amber-400 text-black font-semibold' : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                Okunmamış ({unreadCount})
+              </button>
+              <button
+                onClick={() => setFilter('read')}
+                className={`px-3 py-1.5 rounded-lg transition ${
+                  filter === 'read' ? 'bg-neutral-800 text-white font-medium' : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                Okunmuş
+              </button>
+            </div>
+          </div>
+
+          {/* Mesaj Listesi */}
+          {filteredMessages.length === 0 ? (
+            <div className="text-center py-10 border border-dashed border-neutral-800 rounded-2xl">
+              <p className="text-sm text-neutral-500">Bu filtrede gösterilecek bildirim bulunmuyor.</p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {filteredMessages.map((msg) => {
+                const dateFormatted = new Date(msg.created_at).toLocaleString('tr-TR', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                });
+
+                return (
+                  <div
+                    key={msg.id}
+                    className={`p-4 rounded-2xl border transition-colors ${
+                      msg.okundu
+                        ? 'bg-neutral-950/40 border-neutral-900 opacity-70'
+                        : 'bg-neutral-900/90 border-neutral-800 shadow-md'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-2 mb-2">
+                      <div className="flex items-center gap-2">
+                        {/* Verilen Yıldız Rozeti */}
+                        <div className="inline-flex items-center gap-1 bg-amber-400/10 border border-amber-400/30 text-amber-400 px-2 py-0.5 rounded-lg text-xs font-bold">
+                          <Star className="w-3.5 h-3.5 fill-amber-400" />
+                          <span>{msg.yildiz} Yıldız</span>
+                        </div>
+
+                        {!msg.okundu && (
+                          <span className="bg-red-500/20 text-red-400 border border-red-500/30 text-[10px] px-2 py-0.5 rounded-full font-semibold">
+                            Yeni
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-1 text-[11px] text-neutral-500">
+                          <Clock className="w-3.5 h-3.5" />
+                          <span>{dateFormatted}</span>
+                        </div>
+
+                        {/* Okundu/Okunmadı Butonu */}
+                        <button
+                          onClick={() => toggleMessageRead(msg.id, msg.okundu)}
+                          className={`text-xs p-1.5 rounded-lg border transition ${
+                            msg.okundu
+                              ? 'border-neutral-800 text-neutral-500 hover:text-neutral-300'
+                              : 'border-amber-400/40 text-amber-400 hover:bg-amber-400/10'
+                          }`}
+                          title={msg.okundu ? 'Okunmadı olarak işaretle' : 'Okundu olarak işaretle'}
+                        >
+                          <CheckCheck className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <p className="text-sm text-neutral-200 whitespace-pre-wrap leading-relaxed">
+                      {msg.mesaj}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Genel İstatistik Özeti */}
         <div>
           <div className="flex items-center gap-2 mb-4 text-sm font-semibold text-neutral-300">
             <TrendingUp className="w-4 h-4 text-amber-400" />
