@@ -35,10 +35,22 @@ export default function ReviewGatingPage() {
         setErrorMessage(`"${slug}" adına ait işletme bulunamadı.`);
       } else {
         setBusiness(data);
+
+        // 1. Eski toplam sayacı artır
         await supabase
           .from('isletmeler')
           .update({ toplam_tiklama: (data.toplam_tiklama || 0) + 1 })
           .eq('id', data.id);
+
+        // 2. Yeni analitik tablosuna sayfa görüntüleme logu kaydet
+        await supabase
+          .from('business_analytics')
+          .insert([
+            {
+              business_id: data.id,
+              event_type: 'page_view'
+            }
+          ]);
       }
       setLoading(false);
     }
@@ -46,11 +58,26 @@ export default function ReviewGatingPage() {
     fetchBusiness();
   }, [slug]);
 
-  const handleRating = (rating) => {
+  const handleRating = async (rating) => {
     setSelectedStar(rating);
     setIsRedirecting(true);
 
-    if (rating >= 4) {
+    const isPositive = rating >= 4;
+
+    // Yıldıza tıklandığında analitik tablosuna kaydet
+    if (business?.id) {
+      await supabase
+        .from('business_analytics')
+        .insert([
+          {
+            business_id: business.id,
+            event_type: isPositive ? 'positive_review' : 'negative_review',
+            rating: rating
+          }
+        ]);
+    }
+
+    if (isPositive) {
       try {
         confetti({
           particleCount: 80,
