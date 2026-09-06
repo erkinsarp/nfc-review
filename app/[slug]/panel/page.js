@@ -18,24 +18,22 @@ export default function BusinessDashboard() {
   const [pinError, setPinError] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Mesajlar ve Filtre
   const [messages, setMessages] = useState([]);
-  const [filter, setFilter] = useState('all'); // 'all', 'unread', 'read'
+  const [filter, setFilter] = useState('all');
 
   const [stats, setStats] = useState({
     todayViews: 0,
     todayPositive: 0,
-    todayNegative: 0,
+    todayNegativeMessages: 0,
     totalViews: 0,
     totalPositive: 0,
-    totalNegative: 0,
+    totalNegativeMessages: 0,
   });
 
   const fetchData = async () => {
     if (!slug) return;
     setLoading(true);
 
-    // 1. İşletme
     const { data: bData, error: bError } = await supabase
       .from('isletmeler')
       .select('*')
@@ -48,19 +46,29 @@ export default function BusinessDashboard() {
     }
     setBusiness(bData);
 
-    // 2. Analitik İstatistikleri
+    // 1. Analitik verileri
     const { data: analytics } = await supabase
       .from('business_analytics')
       .select('*')
       .eq('business_id', bData.id);
 
+    // 2. Müşteri mesajları
+    const { data: mData } = await supabase
+      .from('musteri_mesajlari')
+      .select('*')
+      .eq('business_id', bData.id)
+      .order('created_at', { ascending: false });
+
+    const messageList = mData || [];
+    setMessages(messageList);
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    let tViews = 0, tPos = 0;
+    let allViews = 0, allPos = 0;
+
     if (analytics) {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      let tViews = 0, tPos = 0, tNeg = 0;
-      let allViews = 0, allPos = 0, allNeg = 0;
-
       analytics.forEach((item) => {
         const itemDate = new Date(item.created_at);
         const isToday = itemDate >= today;
@@ -71,32 +79,22 @@ export default function BusinessDashboard() {
         } else if (item.event_type === 'positive_review') {
           allPos++;
           if (isToday) tPos++;
-        } else if (item.event_type === 'negative_review') {
-          allNeg++;
-          if (isToday) tNeg++;
         }
       });
-
-      setStats({
-        todayViews: tViews,
-        todayPositive: tPos,
-        todayNegative: tNeg,
-        totalViews: allViews,
-        totalPositive: allPos,
-        totalNegative: allNeg,
-      });
     }
 
-    // 3. Müşteri Mesajlarını Çek (En yeniden eskiye)
-    const { data: mData } = await supabase
-      .from('musteri_mesajlari')
-      .select('*')
-      .eq('business_id', bData.id)
-      .order('created_at', { ascending: false });
+    // Gerçek mesaj sayıları üzerinden hesaplama (Sayı uyuşmazlığını çözer)
+    const tNegMessages = messageList.filter(m => new Date(m.created_at) >= today).length;
+    const allNegMessages = messageList.length;
 
-    if (mData) {
-      setMessages(mData);
-    }
+    setStats({
+      todayViews: tViews,
+      todayPositive: tPos,
+      todayNegativeMessages: tNegMessages,
+      totalViews: allViews,
+      totalPositive: allPos,
+      totalNegativeMessages: allNegMessages,
+    });
 
     setLoading(false);
   };
@@ -118,14 +116,10 @@ export default function BusinessDashboard() {
     }
   };
 
-  // Mesajın okundu/okunmadı durumunu değiştir
   const toggleMessageRead = async (id, currentStatus) => {
     const nextStatus = !currentStatus;
-    
-    // State'i anında güncelle
     setMessages(messages.map(m => m.id === id ? { ...m, okundu: nextStatus } : m));
 
-    // Supabase'e yaz
     await supabase
       .from('musteri_mesajlari')
       .update({ okundu: nextStatus })
@@ -148,7 +142,6 @@ export default function BusinessDashboard() {
     );
   }
 
-  // Giriş Ekranı
   if (!isAuthenticated) {
     return (
       <main className="min-h-screen bg-neutral-950 flex items-center justify-center p-4 font-sans text-white">
@@ -168,7 +161,7 @@ export default function BusinessDashboard() {
                 setPinInput(e.target.value);
                 setPinError(false);
               }}
-              placeholder="Şifreyi girin (Varsayılan: 1234)"
+              placeholder="Şifreyi girin"
               className="w-full bg-neutral-950 border border-neutral-800 focus:border-amber-400 rounded-xl px-4 py-3 text-center tracking-widest text-lg outline-none transition"
             />
 
@@ -196,8 +189,10 @@ export default function BusinessDashboard() {
   });
 
   const unreadCount = messages.filter(m => !m.okundu).length;
-  const successRate = stats.totalViews > 0 
-    ? Math.round(((stats.totalPositive) / (stats.totalPositive + stats.totalNegative || 1)) * 100) 
+  const readCount = messages.filter(m => m.okundu).length;
+  const totalFeedbackCount = stats.totalPositive + stats.totalNegativeMessages;
+  const successRate = totalFeedbackCount > 0 
+    ? Math.round((stats.totalPositive / totalFeedbackCount) * 100) 
     : 100;
 
   return (
@@ -251,21 +246,21 @@ export default function BusinessDashboard() {
                 <ThumbsUp className="w-4 h-4 text-emerald-400" />
               </div>
               <p className="text-3xl font-bold text-emerald-400">{stats.todayPositive}</p>
-              <p className="text-[11px] text-neutral-500 mt-1">4 ve 5 yıldızlı mutlu müşteriler</p>
+              <p className="text-[11px] text-neutral-500 mt-1">4 ve 5 yıldızlı yorumlar</p>
             </div>
 
             <div className="bg-neutral-900/60 border border-neutral-800/80 rounded-2xl p-5">
               <div className="flex items-center justify-between text-neutral-400 mb-2">
-                <span className="text-xs font-medium uppercase tracking-wider">Özel Şikayet</span>
+                <span className="text-xs font-medium uppercase tracking-wider">Gelen Şikayet</span>
                 <MessageSquareWarning className="w-4 h-4 text-amber-400" />
               </div>
-              <p className="text-3xl font-bold text-amber-400">{stats.todayNegative}</p>
-              <p className="text-[11px] text-neutral-500 mt-1">İç havuza iletilen mesajlar</p>
+              <p className="text-3xl font-bold text-amber-400">{stats.todayNegativeMessages}</p>
+              <p className="text-[11px] text-neutral-500 mt-1">Bugün yazılan mesaj sayısı</p>
             </div>
           </div>
         </div>
 
-        {/* Müşteri Geri Bildirimleri & Şikayetler (ÖZEL HAVUZ) */}
+        {/* Gelen Şikayet ve Bildirimler Havuzu */}
         <div className="bg-neutral-900/50 border border-neutral-800 rounded-3xl p-5 sm:p-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div>
@@ -274,7 +269,7 @@ export default function BusinessDashboard() {
                 <span>Gelen Özel Şikayet ve Bildirimler</span>
               </h2>
               <p className="text-xs text-neutral-400 mt-0.5">
-                1-3 yıldız veren müşterilerin Google'a gitmeden doğrudan buraya ilettiği notlar
+                Google'a gitmeden doğrudan sisteme kaydedilen müşteri notları
               </p>
             </div>
 
@@ -302,7 +297,7 @@ export default function BusinessDashboard() {
                   filter === 'read' ? 'bg-neutral-800 text-white font-medium' : 'text-neutral-400 hover:text-white'
                 }`}
               >
-                Okunmuş
+                Okunmuş ({readCount})
               </button>
             </div>
           </div>
@@ -326,24 +321,26 @@ export default function BusinessDashboard() {
                 return (
                   <div
                     key={msg.id}
-                    className={`p-4 rounded-2xl border transition-colors ${
+                    className={`p-4 rounded-2xl border transition-all ${
                       msg.okundu
-                        ? 'bg-neutral-950/40 border-neutral-900 opacity-70'
+                        ? 'bg-neutral-950/40 border-neutral-900 opacity-65'
                         : 'bg-neutral-900/90 border-neutral-800 shadow-md'
                     }`}
                   >
-                    <div className="flex items-center justify-between gap-2 mb-2">
+                    {/* Üst Bilgi Satırı */}
+                    <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5 pb-2 border-b border-neutral-800/50">
                       <div className="flex items-center gap-2">
-                        {/* Verilen Yıldız Rozeti */}
                         <div className="inline-flex items-center gap-1 bg-amber-400/10 border border-amber-400/30 text-amber-400 px-2 py-0.5 rounded-lg text-xs font-bold">
                           <Star className="w-3.5 h-3.5 fill-amber-400" />
                           <span>{msg.yildiz} Yıldız</span>
                         </div>
 
-                        {!msg.okundu && (
+                        {!msg.okundu ? (
                           <span className="bg-red-500/20 text-red-400 border border-red-500/30 text-[10px] px-2 py-0.5 rounded-full font-semibold">
                             Yeni
                           </span>
+                        ) : (
+                          <span className="text-neutral-500 text-[10px]">Okundu</span>
                         )}
                       </div>
 
@@ -353,22 +350,22 @@ export default function BusinessDashboard() {
                           <span>{dateFormatted}</span>
                         </div>
 
-                        {/* Okundu/Okunmadı Butonu */}
                         <button
                           onClick={() => toggleMessageRead(msg.id, msg.okundu)}
-                          className={`text-xs p-1.5 rounded-lg border transition ${
+                          className={`p-1.5 rounded-lg border transition ${
                             msg.okundu
                               ? 'border-neutral-800 text-neutral-500 hover:text-neutral-300'
-                              : 'border-amber-400/40 text-amber-400 hover:bg-amber-400/10'
+                              : 'border-amber-400/50 text-amber-400 hover:bg-amber-400/10'
                           }`}
-                          title={msg.okundu ? 'Okunmadı olarak işaretle' : 'Okundu olarak işaretle'}
+                          title={msg.okundu ? 'Okunmadı yap' : 'Okundu olarak işaretle'}
                         >
                           <CheckCheck className="w-4 h-4" />
                         </button>
                       </div>
                     </div>
 
-                    <p className="text-sm text-neutral-200 whitespace-pre-wrap leading-relaxed">
+                    {/* Mesaj İçeriği (Kelime kırılması ve taşma korumalı) */}
+                    <p className="text-sm text-neutral-200 whitespace-pre-wrap leading-relaxed break-words overflow-hidden">
                       {msg.mesaj}
                     </p>
                   </div>
@@ -395,8 +392,8 @@ export default function BusinessDashboard() {
               <p className="text-xl font-bold text-emerald-400 mt-1">{stats.totalPositive}</p>
             </div>
             <div className="bg-neutral-900/40 border border-neutral-800 rounded-xl p-4">
-              <span className="text-xs text-neutral-500">Engellenen Şikayet</span>
-              <p className="text-xl font-bold text-amber-400 mt-1">{stats.totalNegative}</p>
+              <span className="text-xs text-neutral-500">Toplam Şikayet Mesajı</span>
+              <p className="text-xl font-bold text-amber-400 mt-1">{stats.totalNegativeMessages}</p>
             </div>
             <div className="bg-neutral-900/40 border border-neutral-800 rounded-xl p-4">
               <span className="text-xs text-neutral-500">Memnuniyet Oranı</span>
