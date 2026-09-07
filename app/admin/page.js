@@ -7,7 +7,7 @@ import {
   Lock, KeyRound, Image as ImageIcon, Sparkles, RefreshCw, Smartphone, Wand2, ArrowRight
 } from 'lucide-react';
 
-const MASTER_PIN = 'admin2026';
+const MASTER_PIN = 'xswQG0fh';
 
 // Karanlık Mod (Dark Theme) Uyumlu 3'erli Sektör Fotoğrafları
 const SECTORS = [
