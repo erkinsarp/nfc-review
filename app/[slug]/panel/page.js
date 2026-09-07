@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { 
   Eye, ThumbsUp, MessageSquareWarning, TrendingUp, Calendar, RefreshCw, 
-  Lock, KeyRound, Star, CheckCheck, Clock 
+  Lock, KeyRound, Star, CheckCheck, Clock, Trash2 
 } from 'lucide-react';
 
 export default function BusinessDashboard() {
@@ -46,13 +46,11 @@ export default function BusinessDashboard() {
     }
     setBusiness(bData);
 
-    // 1. Analitik verileri
     const { data: analytics } = await supabase
       .from('business_analytics')
       .select('*')
       .eq('business_id', bData.id);
 
-    // 2. Müşteri mesajları
     const { data: mData } = await supabase
       .from('musteri_mesajlari')
       .select('*')
@@ -83,7 +81,6 @@ export default function BusinessDashboard() {
       });
     }
 
-    // Gerçek mesaj sayıları üzerinden hesaplama (Sayı uyuşmazlığını çözer)
     const tNegMessages = messageList.filter(m => new Date(m.created_at) >= today).length;
     const allNegMessages = messageList.length;
 
@@ -124,6 +121,20 @@ export default function BusinessDashboard() {
       .from('musteri_mesajlari')
       .update({ okundu: nextStatus })
       .eq('id', id);
+  };
+
+  // Mesaj Silme Fonksiyonu
+  const handleDeleteMessage = async (id) => {
+    if (!confirm('Bu geri bildirim mesajını kalıcı olarak silmek istiyor musunuz?')) return;
+
+    setMessages(messages.filter(m => m.id !== id));
+
+    await supabase
+      .from('musteri_mesajlari')
+      .delete()
+      .eq('id', id);
+
+    fetchData();
   };
 
   if (loading) {
@@ -327,7 +338,6 @@ export default function BusinessDashboard() {
                         : 'bg-neutral-900/90 border-neutral-800 shadow-md'
                     }`}
                   >
-                    {/* Üst Bilgi Satırı */}
                     <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5 pb-2 border-b border-neutral-800/50">
                       <div className="flex items-center gap-2">
                         <div className="inline-flex items-center gap-1 bg-amber-400/10 border border-amber-400/30 text-amber-400 px-2 py-0.5 rounded-lg text-xs font-bold">
@@ -344,12 +354,13 @@ export default function BusinessDashboard() {
                         )}
                       </div>
 
-                      <div className="flex items-center gap-3">
-                        <div className="flex items-center gap-1 text-[11px] text-neutral-500">
+                      <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1 text-[11px] text-neutral-500 mr-1">
                           <Clock className="w-3.5 h-3.5" />
                           <span>{dateFormatted}</span>
                         </div>
 
+                        {/* Okundu/Okunmadı Butonu */}
                         <button
                           onClick={() => toggleMessageRead(msg.id, msg.okundu)}
                           className={`p-1.5 rounded-lg border transition ${
@@ -361,10 +372,18 @@ export default function BusinessDashboard() {
                         >
                           <CheckCheck className="w-4 h-4" />
                         </button>
+
+                        {/* Silme Tuşu */}
+                        <button
+                          onClick={() => handleDeleteMessage(msg.id)}
+                          className="p-1.5 rounded-lg border border-red-500/20 text-red-400 hover:bg-red-500/10 transition"
+                          title="Mesajı Sil"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
                       </div>
                     </div>
 
-                    {/* Mesaj İçeriği (Kelime kırılması ve taşma korumalı) */}
                     <p className="text-sm text-neutral-200 whitespace-pre-wrap leading-relaxed break-words overflow-hidden">
                       {msg.mesaj}
                     </p>
