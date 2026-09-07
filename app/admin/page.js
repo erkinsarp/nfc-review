@@ -4,12 +4,11 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { 
   Building2, Plus, Copy, Check, ExternalLink, Trash2, Edit3, X,
-  Lock, KeyRound, Image as ImageIcon, Sparkles, RefreshCw, Smartphone, Wand2, ArrowRight, HelpCircle
+  Lock, KeyRound, Image as ImageIcon, Sparkles, RefreshCw, Smartphone
 } from 'lucide-react';
 
 const MASTER_PIN = 'xswQG0fh';
 
-// Zenginleştirilmiş Sektör ve Yeni Joker Görseller Kataloğu
 const SECTORS = [
   {
     category: '✨ Premium Joker (Karanlık & Kurumsal Alternatifler)',
@@ -90,7 +89,6 @@ export default function SuperAdminPage() {
   const [copiedId, setCopiedId] = useState(null);
 
   const [editingId, setEditingId] = useState(null);
-  const [rawLinkInput, setRawLinkInput] = useState('');
 
   const initialFormState = {
     isletme_adi: '',
@@ -126,52 +124,6 @@ export default function SuperAdminPage() {
       isletme_adi: val,
       slug: editingId ? prev.slug : generatedSlug
     }));
-  };
-
-  // İyileştirilmiş Google Yorum Linki Dönüştürücü
-  const handleConvertGoogleLink = () => {
-    if (!rawLinkInput.trim()) return;
-    const input = rawLinkInput.trim();
-
-    // 1. Zaten resmi yorum linkiyse doğrudan aktar
-    if (input.includes('writereview?placeid=') || input.includes('/review')) {
-      setFormData(prev => ({ ...prev, google_review_link: input }));
-      setRawLinkInput('');
-      return;
-    }
-
-    // 2. ChIJ ile başlayan Place ID girilmişse veya link içinde varsa
-    const placeIdMatch = input.match(/ChIJ[a-zA-Z0-9_-]{20,}/);
-    if (placeIdMatch) {
-      const placeId = placeIdMatch[0];
-      const officialLink = `https://search.google.com/local/writereview?placeid=${placeId}`;
-      setFormData(prev => ({ ...prev, google_review_link: officialLink }));
-      setRawLinkInput('');
-      return;
-    }
-
-    // 3. Google Maps linkinden dükkan adını yakala
-    let queryName = formData.isletme_adi || '';
-    if (input.includes('/place/')) {
-      const parts = input.split('/place/')[1];
-      if (parts) {
-        queryName = decodeURIComponent(parts.split('/')[0].replace(/\+/g, ' '));
-      }
-    }
-
-    if (!queryName && !input.startsWith('http')) {
-      queryName = input;
-    }
-
-    // Doğrudan Google arama yorum modalı tetikleyicisi
-    if (queryName) {
-      const triggerUrl = `https://www.google.com/search?q=${encodeURIComponent(queryName + ' ' + formData.konum)}#lrd=0x0:0x0,3,,,`;
-      setFormData(prev => ({ ...prev, google_review_link: triggerUrl }));
-      setRawLinkInput('');
-    } else {
-      setFormData(prev => ({ ...prev, google_review_link: input }));
-      setRawLinkInput('');
-    }
   };
 
   const fetchBusinesses = async () => {
@@ -214,7 +166,7 @@ export default function SuperAdminPage() {
       banner_url: b.banner_url || SECTORS[0].images[0].url
     });
     setCreatedResult(null);
-    window.scrollTo({ top: 350, behavior: 'smooth' });
+    window.scrollTo({ top: 150, behavior: 'smooth' });
   };
 
   const handleCancelEdit = () => {
@@ -383,48 +335,6 @@ export default function SuperAdminPage() {
           </div>
         )}
 
-        {/* HIZLI GOOGLE LINK DÖNÜŞTÜRÜCÜ & REHBERİ */}
-        <div className="bg-neutral-900/60 border border-amber-400/20 rounded-3xl p-5 shadow-lg">
-          <div className="flex items-center justify-between gap-2 mb-2">
-            <div className="flex items-center gap-2 text-amber-400 font-bold text-sm">
-              <Wand2 className="w-4 h-4" />
-              <span>Google Doğrudan Yorum Linki Oluşturucu</span>
-            </div>
-            <a 
-              href="https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder" 
-              target="_blank" 
-              rel="noreferrer"
-              className="text-[11px] text-neutral-400 hover:text-amber-300 flex items-center gap-1 underline underline-offset-2"
-            >
-              <HelpCircle className="w-3.5 h-3.5" />
-              <span>Place ID Bulucu</span>
-            </a>
-          </div>
-          
-          <p className="text-xs text-neutral-400 mb-3">
-            Haritalar linkini, dükkan adını veya <strong>Place ID (ChIJ...)</strong> yapıştırın. Sistem doğrudan yorum penceresini açacak bağlantıyı üretir.
-          </p>
-          
-          {/* Responsive Flex Kapsayıcısı (Mobilde taşma yapmaz) */}
-          <div className="flex flex-col sm:flex-row gap-2 w-full">
-            <input
-              type="text"
-              placeholder="Örn: Paşa Döner Kadıköy veya ChIJ..."
-              value={rawLinkInput}
-              onChange={(e) => setRawLinkInput(e.target.value)}
-              className="w-full sm:flex-1 bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400 font-mono transition"
-            />
-            <button
-              type="button"
-              onClick={handleConvertGoogleLink}
-              className="w-full sm:w-auto bg-amber-400 hover:bg-amber-300 text-black text-xs font-bold px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 shrink-0"
-            >
-              <span>Dönüştür & Aktar</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </div>
-
         {/* İŞLETME EKLEME & DÜZENLEME FORMU */}
         <div className={`bg-neutral-900/50 border rounded-3xl p-6 sm:p-8 shadow-xl transition-all ${
           editingId ? 'border-amber-400 shadow-amber-400/5' : 'border-neutral-800'
@@ -474,11 +384,11 @@ export default function SuperAdminPage() {
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block text-xs font-semibold text-neutral-300 mb-1.5">Google Harita / Doğrudan Yorum Linki *</label>
+                <label className="block text-xs font-semibold text-neutral-300 mb-1.5">Google Harita / Yorum Linki *</label>
                 <input
                   type="url"
                   required
-                  placeholder="https://search.google.com/local/writereview?placeid=... veya https://g.page/r/.../review"
+                  placeholder="https://g.page/r/.../review veya Google Yorum linki"
                   value={formData.google_review_link}
                   onChange={(e) => setFormData({ ...formData, google_review_link: e.target.value })}
                   className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400 font-mono transition"
