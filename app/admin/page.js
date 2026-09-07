@@ -17,17 +17,27 @@ const SECTORS = [
       { label: 'Makas & Tezgah Detayı', url: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1000&q=80' },
       { label: 'Vintage Berber Dükkanı', url: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=1000&q=80' },
       { label: 'Tıraş Fırçası & Köpük', url: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Kuaför Lambası & Aynalar', url: 'https://images.unsplash.com/photo-1512690459411-b9245aed614b?auto=format&fit=crop&w=1000&q=80' }
+      { label: 'Kuaför Aynaları & Işıklar', url: 'https://images.unsplash.com/photo-1512690459411-b9245aed614b?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Usta Makas & Tarak Tutuşu', url: 'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Geleneksel Ustura Çeliği', url: 'https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Kırmızı Berber Direk Lambası', url: 'https://images.unsplash.com/photo-1593702295094-aea22597af65?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Koyu Ahşap Tıraş Tezgahı', url: 'https://images.unsplash.com/photo-1605497788044-5a32c7078486?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Klasik Berber Sandalye Sırası', url: 'https://images.unsplash.com/photo-1532710093739-9470acff878f?auto=format&fit=crop&w=1000&q=80' }
     ]
   },
   {
     category: '💇‍♀️ Kadın Kuaförü & Saç Tasarım',
     images: [
-      { label: 'Şık Saç Yıkama Koltukları', url: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Kuaför Aynası & Işıklar', url: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Profesyonel Saç Fönü & Tarak', url: 'https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Modern Salon & Kozmetik Tezgahı', url: 'https://images.unsplash.com/photo-1634449571010-02389ed0f9b0?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Saç Boyası & Fırçalar', url: 'https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=1000&q=80' }
+      { label: 'Saç Yıkama Koltukları', url: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Kuaför Aynası & Ampuller', url: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Profesyonel Fön & Fırça', url: 'https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Modern Salon & Kozmetik', url: 'https://images.unsplash.com/photo-1634449571010-02389ed0f9b0?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Saç Boyası & Karıştırma Kabı', url: 'https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Lüks Döner Kuaför Sandalyesi', url: 'https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Gelin Saçı & Aksesuar Masası', url: 'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Kuaför Ürün Rafı & Şampuanlar', url: 'https://images.unsplash.com/photo-1582095133179-bfd08e2fc6b3?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Sıcak Maşa & Düzleştirici', url: 'https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Modern Salon Resepsiyonu', url: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1000&q=80' }
     ]
   },
   {
@@ -35,9 +45,14 @@ const SECTORS = [
     images: [
       { label: 'Espresso Bar & Loş Ambiyans', url: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1000&q=80' },
       { label: 'Koyu Ahşapta Latte Art', url: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Kahve Çekirdekleri & Kavurma', url: 'https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Bakır Cezve & Sıcak Kum', url: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Cam Vitrinde Çikolata & Pasta', url: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1000&q=80' }
+      { label: 'Kahve Çekirdeği & Kavurma', url: 'https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Bakır Cezve & Türk Kahvesi', url: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Vitrinde Çikolatalı Pasta', url: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Barista Portafiltre Kahve Akışı', url: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Taze Çıtır Kruvasan Masası', url: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Koyu Mermerde Buzlu Filtre Kahve', url: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Retro Kahve Değirmeni & Kaşık', url: 'https://images.unsplash.com/photo-1589396575653-c09c794ff6a6?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Loş Işıklı Kafe Masaları', url: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1000&q=80' }
     ]
   },
   {
@@ -46,18 +61,28 @@ const SECTORS = [
       { label: 'Lüks Masa & Kadehler', url: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1000&q=80' },
       { label: 'Izgara & Alev Şovu', url: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1000&q=80' },
       { label: 'Şık Servis & Koyu Tabak', url: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Közde Pişen Kebap Şişleri', url: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Döküm Tavada Mühürlü Et', url: 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=1000&q=80' }
+      { label: 'Közde Kebap Şişleri', url: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Döküm Tavada Mühürlü Antrikot', url: 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Şef Mutfak Tezgâhı & Hazırlık', url: 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Taş Fırında Pişen Lahmacun', url: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Karanlık Ambiyansta Restoran Salonu', url: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Mangal Kömürü & Izgara Dumanı', url: 'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Özel Meze Tabakları Dizilimi', url: 'https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=1000&q=80' }
     ]
   },
   {
     category: '🌯 Dönerci & Fast Food',
     images: [
-      { label: 'Ateşte Dönen Yaprak Döner', url: 'https://images.unsplash.com/photo-1633321702518-7feccafb94d5?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Döner Bıçağı & Kesim Tezgâhı', url: 'https://images.unsplash.com/photo-1529042410759-befb1204b468?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Dumanı Üstünde Dürüm Servisi', url: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Loş Işıkta Izgara Burger & Patates', url: 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Fırından Yeni Çıkan Pide & Lavaş', url: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1000&q=80' }
+      { label: 'Ateşte Dönen Et Döner', url: 'https://images.unsplash.com/photo-1633321702518-7feccafb94d5?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Döner Kesim Tezgâhı & Bıçak', url: 'https://images.unsplash.com/photo-1529042410759-befb1204b468?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Sıcak Dürüm Servisi', url: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Izgara Burger & Çıtır Patates', url: 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Fırından Çıkan Pide & Lavaş', url: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Tavuk Döner Şişi & Alev', url: 'https://images.unsplash.com/photo-1561758033-d89a9ad46330?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Tombik Ekmek Döner Hazırlığı', url: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Soslu Dürüm Kesim Tahtası', url: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Izgara Köfte & Biber Tabağı', url: 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Fast Food Sipariş Tezgâhı', url: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1000&q=80' }
     ]
   },
   {
@@ -67,117 +92,177 @@ const SECTORS = [
       { label: 'Yeşillikler & Taze Limon Detayı', url: 'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=1000&q=80' },
       { label: 'Baharat Çeşitleri & Pul Biber', url: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=1000&q=80' },
       { label: 'Geleneksel Bakır Tabak Sunumu', url: 'https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Taze Lavaş Üzerinde Çiğköfte Dürüm', url: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=1000&q=80' }
+      { label: 'Taze Lavaş Üzerinde Dürüm', url: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Geleneksel Çiğköfte Yoğurma', url: 'https://images.unsplash.com/photo-1505253758473-96b3015f2169?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Meze Vitrini & Zeytinyağlılar', url: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Taze Marul Yaprağında Sıkım', url: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Koyu Masada Şalgam & Ayran', url: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Köz Biber & Garnitür Tezgâhı', url: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1000&q=80' }
     ]
   },
   {
     category: '🛒 Bakkal, Market & Şarküteri',
     images: [
-      { label: 'Ahşap Kasalarda Taze Meyveler', url: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Geleneksel Şarküteri & Peynir Tezgâhı', url: 'https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Karanlık Ambiyansta Market Rafları', url: 'https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Taş Fırın Ekmeği & Unlu Mamul', url: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Zeytin & Doğal Gurme Kavanozları', url: 'https://images.unsplash.com/photo-1534483509719-3feaee7c30da?auto=format&fit=crop&w=1000&q=80' }
+      { label: 'Ahşap Kasalarda Taze Meyve', url: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Geleneksel Şarküteri Peynirleri', url: 'https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Loş Işıkta Market Rafları', url: 'https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Taş Fırın Ekmeği Sepeti', url: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Zeytin & Doğal Gurme Kavanozlar', url: 'https://images.unsplash.com/photo-1534483509719-3feaee7c30da?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Market Kasası & Barkod Alanı', url: 'https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Baharat & Bakliyat Çuvalları', url: 'https://images.unsplash.com/photo-1506368249639-73a05d6f6488?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Dükkan Önü Taze Sebze Tezgâhı', url: 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Geleneksel Mahalle Bakkal Vitrini', url: 'https://images.unsplash.com/photo-1534723452862-4c874018d66d?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Cam Kavanozlarda Şekerleme', url: 'https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?auto=format&fit=crop&w=1000&q=80' }
     ]
   },
   {
     category: '🍾 Tekel Bayi & Meşrubat',
     images: [
-      { label: 'Işıklı Koyu Viski & Şişe Rafları', url: 'https://images.unsplash.com/photo-1527061011665-3652c757a4d4?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Koyu Ahşap Şarap Mahzeni Rafları', url: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Buz Dolu Kovada Şişeler', url: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Neon Aydınlatmalı Bar & Şişe Tezgâhı', url: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Kadeh & Amber Renkli İçecek Detayı', url: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1000&q=80' }
+      { label: 'Işıklı Koyu Şişe Rafları', url: 'https://images.unsplash.com/photo-1527061011665-3652c757a4d4?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Ahşap Şarap Mahzeni Rafları', url: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Buz Kovasında Meşrubatlar', url: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Neon Aydınlatmalı Bar Vitrini', url: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Kadeh & Amber İçecek Detayı', url: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Cam Dolapta Soğuk İçecek Sırası', url: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Koyu Zemin Üzerinde Premium Şişe', url: 'https://images.unsplash.com/photo-1569529465841-dfecdab7503b?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Gece Tekel Aydınlatmalı Tabela', url: 'https://images.unsplash.com/photo-1508253730651-e5ace80a7025?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Karanlıkta Mantar Tıpalı Şişeler', url: 'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Dükkan Tezgâhı & Fıstık/Meze', url: 'https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=1000&q=80' }
     ]
   },
   {
     category: '🎮 İnternet Cafe & E-Spor',
     images: [
-      { label: 'RGB Işıklı Mekanik Klavye & Mouse', url: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Karanlıkta Kavisli Oyuncu Monitörü', url: 'https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Neon Kulaklık Standı & Gamepad', url: 'https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Sıralı Gaming Kasaları & Fan Işıkları', url: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Konsol Oyun Kolu & Koyu Fon', url: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1000&q=80' }
+      { label: 'RGB Işıklı Mekanik Klavye', url: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Kavisli Oyuncu Monitörü', url: 'https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Neon Kulaklık & Gamepad', url: 'https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Sıralı Gaming Kasaları & Fanlar', url: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Konsol Oyun Kolu & Koyu Fon', url: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Loş E-Spor Arena Salonu', url: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'RGB Oyuncu Faresi & Pad', url: 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Oyuncu Koltukları Sırası', url: 'https://images.unsplash.com/photo-1598550476439-6847785fcea6?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'VR Sanal Gerçeklik Gözlüğü', url: 'https://images.unsplash.com/photo-1622979135225-d2ba269bc1df?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Karanlıkta Aydınlatmalı Anakart', url: 'https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=1000&q=80' }
     ]
   },
   {
     category: '📱 Elektronikçi, Telefon & Tamir',
     images: [
       { label: 'Büyüteç & Anakart Lehim Tamiri', url: 'https://images.unsplash.com/photo-1597733336794-12d05021d510?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Hassas Tornavidalar & Telefon İçi', url: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Tornavidalar & Telefon İçi', url: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1000&q=80' },
       { label: 'Loş Işıkta Devre Kartı & Çipler', url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Akıllı Telefon Ekran Değişim Masası', url: 'https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Test Cihazları & Dijital Multimetre', url: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=1000&q=80' }
+      { label: 'Telefon Ekran Değişim Masası', url: 'https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Dijital Multimetre & Problar', url: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Sıralı Telefon Kılıfları Vitrini', url: 'https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Mikroskop Altında Mikroçip', url: 'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Açık Laptop Tamir Tezgâhı', url: 'https://images.unsplash.com/photo-1588508065123-287b28e013da?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Sıcak Hava Havya İstasyonu', url: 'https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Elektronik Mağazası Girişi', url: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=1000&q=80' }
     ]
   },
   {
     category: '🏠 Emlak Ofisi & Gayrimenkul',
     images: [
-      { label: 'Modern Mimar Maketi & Çizim Masası', url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Lüks Daire Sözleşmesi & Altın Kalem', url: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Koyu Ahşap Masa & Pirinç Ev Anahtarı', url: 'https://images.unsplash.com/photo-1582407947304-fd86f028f716?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Gece Işıklarında Rezidans & Gökdelen', url: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Deri Koltuklu Emlak Toplantı Odası', url: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1000&q=80' }
+      { label: 'Mimari Maket & Çizim Masası', url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Lüks Daire Sözleşmesi & Kalem', url: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Pirinç Ev Anahtarı & Koyu Ahşap', url: 'https://images.unsplash.com/photo-1582407947304-fd86f028f716?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Gece Işıklarında Rezidans', url: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Deri Koltuklu Emlak Toplantı Odası', url: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Modern Villa Havuz & Dış Cephe', url: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Emlak Ofisi Karşılama Masası', url: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Gökdelen Camından Şehir Manzarası', url: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Minimalist Lüks Salon İç Mekan', url: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Altın Detaylı Daire Kapı Kolu', url: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1000&q=80' }
     ]
   },
   {
     category: '📊 Muhasebe & Mali Müşavirlik',
     images: [
-      { label: 'Hesap Makinesi, Defter & Dolma Kalem', url: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Finansal Grafikler & Deri Ajanda', url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Yeşil Siperli Masa Lambası & Evraklar', url: 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Mühür, Kaşe & Resmi Belgeler', url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Klasik Ahşap Kütüphane & Hukuk Rafları', url: 'https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&w=1000&q=80' }
+      { label: 'Hesap Makinesi & Dolma Kalem', url: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Finansal Grafik & Ajanda', url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Masa Lambası & Resmi Evrak', url: 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Mühür, Kaşe & İmzalı Sözleşme', url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Klasik Hukuk & Mevzuat Kitaplığı', url: 'https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Deri Masa Sümeni & Evrak Dosyaları', url: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Vergi Dosyaları Arşiv Rafları', url: 'https://images.unsplash.com/photo-1568667256549-094345857637?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Dizüstü Bilgisayarda Bilanço Analizi', url: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Gözlük & Resmi Rapor Tabloları', url: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Kurumsal Ofis Giriş Bankosu', url: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1000&q=80' }
     ]
   },
   {
     category: '🚗 Oto Yıkama & Detailing',
     images: [
-      { label: 'Petek LED & Siyah Araba Yansıması', url: 'https://images.unsplash.com/photo-1601362840469-51e4d8d58785?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Seramik Kaplama & Köpük Detayı', url: 'https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Parlak Siyah Jant & Kaliper Temizliği', url: 'https://images.unsplash.com/photo-1607860108855-64acf2078ed9?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Polisaj Makinesi & Pasta Cila', url: 'https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Basınçlı Su Tabancası & Işıklar', url: 'https://images.unsplash.com/photo-1507136566006-cfc505b114fc?auto=format&fit=crop&w=1000&q=80' }
+      { label: 'Petek LED & Siyah Araba', url: 'https://images.unsplash.com/photo-1601362840469-51e4d8d58785?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Seramik Kaplama & Kar Köpüğü', url: 'https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Parlak Siyah Jant Temizliği', url: 'https://images.unsplash.com/photo-1607860108855-64acf2078ed9?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Polisaj & Pasta Cila Parlatması', url: 'https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Basınçlı Yıkama Tabancası', url: 'https://images.unsplash.com/photo-1507136566006-cfc505b114fc?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Deri Koltuk & Detaylı İç Temizlik', url: 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Karanlık Garajda Parlayan Boya', url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Mikrofiber Bezle Kurulama', url: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Detailing Stüdyo Işık Hattı', url: 'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Far Yenileme & Parlatma', url: 'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=1000&q=80' }
     ]
   },
   {
     category: '🔧 Oto Tamir, Lastik & Sanayi',
     images: [
-      { label: 'Lifte Kaldırılmış Araç Altı Bakımı', url: 'https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Sıralı Somun Anahtarları & Alet Duvarı', url: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Fren Diski & Kaliper Montajı', url: 'https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Motor Bloğu & Yağ Değişim Tezgâhı', url: 'https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Parlak Sıfır Lastikler & Jant Balansı', url: 'https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&w=1000&q=80' }
+      { label: 'Lifte Alınmış Araç Altı Bakımı', url: 'https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Somun Anahtarları & Takım Panosu', url: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Hava Tabancasıyla Lastik Sökümü', url: 'https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Motor Bloğu & Yağ Değişimi', url: 'https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Fren Balatası & Disk Değişimi', url: 'https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Amortisör & Alt Takım Onarımı', url: 'https://images.unsplash.com/photo-1613214149922-f1809c99b414?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Bilgisayarlı Araç Arıza Tespiti', url: 'https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Akü Ölçümü & Elektrik Tesisatı', url: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Sıralı Sıfır Lastik Rafları', url: 'https://images.unsplash.com/photo-1584345604476-8ec5e12e42dd?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Sanayi Dükkanı Önü & Takımlar', url: 'https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=1000&q=80' }
     ]
   },
   {
     category: '💅 Güzellik Merkezi, Tırnak & Spa',
     images: [
       { label: 'Mum Işığı & Doğal Taş Spa', url: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Modern Estetik & Manikür Odası', url: 'https://images.unsplash.com/photo-1560750588-73207b1ef5b8?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Cilt Bakım Serumları & Damlalık', url: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Renkli Oje Şişeleri & UV Lamba', url: 'https://images.unsplash.com/photo-1632345031435-8727f6897d53?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Masaj Yağları & Bambu Detayı', url: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=1000&q=80' }
+      { label: 'Modern Estetik & Manikür Masası', url: 'https://images.unsplash.com/photo-1560750588-73207b1ef5b8?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Cilt Bakım Serumu & Damlalık', url: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Renkli Oje Şişeleri & UV Cihazı', url: 'https://images.unsplash.com/photo-1632345031435-8727f6897d53?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Aromaterapi Masaj Yağı & Havlular', url: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Lazer Epilasyon & Cilt Cihazı', url: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'İpek Kirpik & Kaş Tasarım Masası', url: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Pedikür & Ayak Bakım Havuzu', url: 'https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Koyu Ahşap Masaj Yatağı Odası', url: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Klinik Resepsiyon & Parfüm Standı', url: 'https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?auto=format&fit=crop&w=1000&q=80' }
     ]
   },
   {
     category: '🎨 Dövme (Tattoo) & Sanat',
     images: [
       { label: 'Dövme Makinesi & Odak Işığı', url: 'https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Karanlık Dövme Stüdyosu Masası', url: 'https://images.unsplash.com/photo-1562962230-16e4623d36e6?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Siyah Mürekkep Damlaları & İğneler', url: 'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Çizim Eskizleri & Siyah Eldiven', url: 'https://images.unsplash.com/photo-1568515045052-f9a854d70bfd?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Deri Koltuk & Sanatçı Lambası', url: 'https://images.unsplash.com/photo-1590246814883-578358eb09ee?auto=format&fit=crop&w=1000&q=80' }
+      { label: 'Karanlık Dövme Masası & Şişeler', url: 'https://images.unsplash.com/photo-1562962230-16e4623d36e6?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Siyah Mürekkep & İğne Uçları', url: 'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Özel Çizim Eskizleri & Eldiven', url: 'https://images.unsplash.com/photo-1568515045052-f9a854d70bfd?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Deri Koltuk & Sanatçı Lambası', url: 'https://images.unsplash.com/photo-1590246814883-578358eb09ee?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Piercing Aletleri & Titanyum Takılar', url: 'https://images.unsplash.com/photo-1535223289827-42f1e9919769?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Kırmızı Işıklı Retro Dövme Stüdyosu', url: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Mürekkep Boya Kapakları Dizilimi', url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Dövme Sanatçısı Çalışma Tezgâhı', url: 'https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Koyu Ahşap Sanat Galerisi Duvarı', url: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=1000&q=80' }
     ]
   },
   {
     category: '🦷 Diş Kliniği & Sağlık',
     images: [
-      { label: 'Ultra Modern Klinik & Muayene Ünitesi', url: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Steril Alet Tepsisi & Aynalar', url: 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Minimalist Sağlık Odası & Monitör', url: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Diş Hekimi Odak Işığı & Koltuk', url: 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Panoramik Diş Röntgen Filmi', url: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1000&q=80' }
+      { label: 'Modern Diş Ünitesi & Monitör', url: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Steril Çelik Alet Tepsisi', url: 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Minimalist Sağlık Odası', url: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Hekim Tepe Odak Lambası', url: 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Panoramik Çene Röntgeni', url: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Diş Beyazlatma Cihazı & Işık', url: 'https://images.unsplash.com/photo-1598256989800-fe5f95da9787?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Porselen Diş Modeli & Laboratuvar', url: 'https://images.unsplash.com/photo-1588776814546-daab30f310ce?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Klinik Karşılama Bankosu', url: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Sterilizasyon Otoklav Cihazı', url: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Şık Bekleme Salonu Koltukları', url: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1000&q=80' }
     ]
   },
   {
@@ -185,19 +270,29 @@ const SECTORS = [
     images: [
       { label: 'Siyah Dambıl Sırası & Loş Salon', url: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1000&q=80' },
       { label: 'Demir Plakalar & Halter Barı', url: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Kettlebell & Kauçuk Zemin', url: 'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Boks Torbası & Bandajlar', url: 'https://images.unsplash.com/photo-1549060279-7e168fcee0c2?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Kondisyon İstasyonu & Metal Halatlar', url: 'https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&w=1000&q=80' }
+      { label: 'Döküm Kettlebell & Kauçuk Zemin', url: 'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Boks Torbası & Deri Eldivenler', url: 'https://images.unsplash.com/photo-1549060279-7e168fcee0c2?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Kondisyon İstasyonu & Makaralar', url: 'https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Koşu Bandı Sırası & Şehir Işıkları', url: 'https://images.unsplash.com/photo-1576678927484-cc907957088c?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Crossfit Halatları & Ağırlık Sehpası', url: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Karanlık Salonda Barfiks Demiri', url: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Pilates Reformer Aletleri', url: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Protein Bar & Karşılama Bankosu', url: 'https://images.unsplash.com/photo-1593079831268-3381b0db4a77?auto=format&fit=crop&w=1000&q=80' }
     ]
   },
   {
-    category: '✨ Hikayeli Joker (Nesneler & Kurumsal Siyah)',
+    category: '✨ Premium Joker (Dükkan Cepheleri & Şık Mekanlar)',
     images: [
-      { label: 'Deri Ajanda & Altın Uçlu Dolma Kalem', url: 'https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Karanlık Masada Ahşap Satranç Şahı', url: 'https://images.unsplash.com/photo-1529699211952-734e80c4d42b?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Lüks Mekanik Kol Saati & Dişliler', url: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Pirinç Antika Anahtar & Koyu Ahşap', url: 'https://images.unsplash.com/photo-1582407947304-fd86f028f716?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Klasik Kahve Fincanı & Gözlük Detayı', url: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1000&q=80' }
+      { label: 'Gece Işıklı Lüks Butik Cephesi', url: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Koyu Mermer Resepsiyon Bankosu', url: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Loş Işıklı Şık Cadde Mağazası', url: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Modern Cam & Çelik İşletme Girişi', url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Pirinç Altın Tabela Işıklandırması', url: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Akşam Işıklarında Şehir Çarşısı', url: 'https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Siyah Metal Vitrin & Spot Işıklar', url: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Neon Tabela & Gece İşletme Vitrini', url: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Koyu Ahşap Karşılama Masası', url: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Lüks Bekleme Salonu & Koltuklar', url: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1000&q=80' }
     ]
   }
 ];
@@ -562,17 +657,17 @@ export default function SuperAdminPage() {
               </div>
             </div>
 
-            {/* ZENGİNLEŞTİRİLMİŞ GÖRSEL KATALOĞU (JOKER EN SONDA) */}
+            {/* ZENGİNLEŞTİRİLMİŞ 10'ARLI GÖRSEL KATALOĞU (JOKER EN SONDA) */}
             <div className="border-t border-neutral-800 pt-6">
               <label className="block text-xs font-semibold text-neutral-300 mb-2 flex items-center justify-between">
                 <div className="flex items-center gap-1.5">
                   <ImageIcon className="w-4 h-4 text-amber-400" />
-                  <span>Kapak Görseli Kataloğu (18 Sektör & Nesneli Joker)</span>
+                  <span>Kapak Görseli Kataloğu (Her Sektör İçin 10 Seçenek)</span>
                 </div>
                 <span className="text-[11px] text-neutral-500 font-normal">Fotoğrafa tıklayarak anında seçebilirsiniz</span>
               </label>
 
-              <div className="space-y-4 max-h-96 overflow-y-auto pr-2">
+              <div className="space-y-4 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
                 {SECTORS.map((sec, sIdx) => (
                   <div key={sIdx} className="bg-neutral-950 p-3 rounded-2xl border border-neutral-800/80">
                     <span className="text-xs font-bold text-neutral-300 mb-2 block">{sec.category}</span>
@@ -584,7 +679,7 @@ export default function SuperAdminPage() {
                             key={iIdx}
                             type="button"
                             onClick={() => setFormData({ ...formData, banner_url: img.url })}
-                            className={`relative group rounded-xl overflow-hidden border text-left transition h-24 flex flex-col justify-end p-2 ${
+                            className={`relative group rounded-xl overflow-hidden border text-left transition h-20 flex flex-col justify-end p-1.5 ${
                               isSelected ? 'border-amber-400 ring-2 ring-amber-400/30' : 'border-neutral-800 hover:border-neutral-600'
                             }`}
                           >
@@ -596,7 +691,7 @@ export default function SuperAdminPage() {
                             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
                             <div className="relative z-10 flex items-center justify-between">
                               <span className="text-[9px] text-white font-medium truncate">{img.label}</span>
-                              {isSelected && <Check className="w-3.5 h-3.5 text-amber-400 shrink-0" />}
+                              {isSelected && <Check className="w-3 h-3 text-amber-400 shrink-0" />}
                             </div>
                           </button>
                         );
