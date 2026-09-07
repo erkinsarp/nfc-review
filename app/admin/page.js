@@ -88,16 +88,16 @@ const SECTORS = [
   {
     category: '🍋 Çiğköfteci & Mezeci',
     images: [
-      { label: 'Bakır Tepside Nar Ekşili Çiğköfte', url: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Yeşillikler & Taze Limon Detayı', url: 'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Baharat Çeşitleri & Pul Biber', url: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Geleneksel Bakır Tabak Sunumu', url: 'https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Taze Lavaş Üzerinde Dürüm', url: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Geleneksel Çiğköfte Yoğurma', url: 'https://images.unsplash.com/photo-1505253758473-96b3015f2169?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Meze Vitrini & Zeytinyağlılar', url: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Taze Marul Yaprağında Sıkım', url: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Koyu Masada Şalgam & Ayran', url: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Köz Biber & Garnitür Tezgâhı', url: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1000&q=80' }
+      { label: 'Taze Sıkım Çiğköfte & Marul', url: 'https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Soslu Çiğköfte Dürüm Kesimi', url: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Tepside Yoğurma & İsot Dokusu', url: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Sulu Limon Dilimleri & Nar Ekşisi', url: 'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Taze Kıvırcık Marul & Yeşillik', url: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Lavaş Üzerinde Hazırlık Tezgâhı', url: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Kırmızı Acı Pul Biber & Baharatlar', url: 'https://images.unsplash.com/photo-1506368249639-73a05d6f6488?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Dükkan Meze & Turşu Tezgâhı', url: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Soğuk Şalgam Kadehi & Koyu Zemin', url: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Çıtır Lavaş Dürüm Sunumu', url: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=1000&q=80' }
     ]
   },
   {
