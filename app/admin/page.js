@@ -4,13 +4,24 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { 
   Building2, Plus, Copy, Check, ExternalLink, Trash2, Edit3, X,
-  Lock, KeyRound, Image as ImageIcon, Sparkles, RefreshCw, Smartphone, Wand2, ArrowRight
+  Lock, KeyRound, Image as ImageIcon, Sparkles, RefreshCw, Smartphone, Wand2, ArrowRight, HelpCircle
 } from 'lucide-react';
 
 const MASTER_PIN = 'xswQG0fh';
 
-// Karanlık Mod (Dark Theme) Uyumlu 3'erli Sektör Fotoğrafları
+// Zenginleştirilmiş Sektör ve Yeni Joker Görseller Kataloğu
 const SECTORS = [
+  {
+    category: '✨ Premium Joker (Karanlık & Kurumsal Alternatifler)',
+    images: [
+      { label: 'Siyah Mermer & Altın Çizgiler', url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Mat Siyah Karbon Doku', url: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Sinematik Gece Şehir Bokeh', url: 'https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Koyu Ahşap & Sıcak Işık', url: 'https://images.unsplash.com/photo-1546484396-fb3fc6f95f98?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Minimalist Koyu Taş & Gölge', url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80' },
+      { label: 'Geometrik Siyah Stüdyo', url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1000&q=80' }
+    ]
+  },
   {
     category: '💈 Erkek Berber & Kuaför',
     images: [
@@ -66,14 +77,6 @@ const SECTORS = [
       { label: 'Lüks Muayene Odası', url: 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=1000&q=80' },
       { label: 'Minimalist Sağlık Odası', url: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=1000&q=80' }
     ]
-  },
-  {
-    category: '✨ Lüks Gold & Siyah (Joker)',
-    images: [
-      { label: 'Gold Işık Dalgaları', url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Siyah Geometrik Doku', url: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=1000&q=80' },
-      { label: 'Soyut Altın Parıltı', url: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1000&q=80' }
-    ]
   }
 ];
 
@@ -86,13 +89,9 @@ export default function SuperAdminPage() {
   const [loading, setLoading] = useState(false);
   const [copiedId, setCopiedId] = useState(null);
 
-  // Düzenleme durumu
   const [editingId, setEditingId] = useState(null);
-
-  // Link Dönüştürücü (Yöntem A) State
   const [rawLinkInput, setRawLinkInput] = useState('');
 
-  // Form State
   const initialFormState = {
     isletme_adi: '',
     slug: '',
@@ -129,42 +128,50 @@ export default function SuperAdminPage() {
     }));
   };
 
-  // Yöntem A: Google Maps Link Dönüştürücü
+  // İyileştirilmiş Google Yorum Linki Dönüştürücü
   const handleConvertGoogleLink = () => {
     if (!rawLinkInput.trim()) return;
     const input = rawLinkInput.trim();
 
-    // 1. Zaten direkt review linki ise
-    if (input.includes('local/writereview') || input.includes('/review')) {
+    // 1. Zaten resmi yorum linkiyse doğrudan aktar
+    if (input.includes('writereview?placeid=') || input.includes('/review')) {
       setFormData(prev => ({ ...prev, google_review_link: input }));
       setRawLinkInput('');
       return;
     }
 
-    // 2. Place ID içeriyorsa
-    const placeIdMatch = input.match(/place_id:([a-zA-Z0-9_-]+)/) || input.match(/placeid=([a-zA-Z0-9_-]+)/);
-    if (placeIdMatch && placeIdMatch[1]) {
-      const converted = `https://search.google.com/local/writereview?placeid=${placeIdMatch[1]}`;
-      setFormData(prev => ({ ...prev, google_review_link: converted }));
+    // 2. ChIJ ile başlayan Place ID girilmişse veya link içinde varsa
+    const placeIdMatch = input.match(/ChIJ[a-zA-Z0-9_-]{20,}/);
+    if (placeIdMatch) {
+      const placeId = placeIdMatch[0];
+      const officialLink = `https://search.google.com/local/writereview?placeid=${placeId}`;
+      setFormData(prev => ({ ...prev, google_review_link: officialLink }));
       setRawLinkInput('');
       return;
     }
 
-    // 3. maps.app.goo.gl veya maps.google.com linkiyse ya da salt isimse
-    // Google Haritalar arama tabanlı doğrudan yorum popup tetikleyicisi
-    let cleanQuery = input;
-    if (input.includes('maps.google') || input.includes('goo.gl')) {
-      // URL'deki işletme adını çekmeye çalış
-      const queryMatch = input.match(/place\/([^/@?]+)/);
-      if (queryMatch && queryMatch[1]) {
-        cleanQuery = decodeURIComponent(queryMatch[1].replace(/\+/g, ' '));
+    // 3. Google Maps linkinden dükkan adını yakala
+    let queryName = formData.isletme_adi || '';
+    if (input.includes('/place/')) {
+      const parts = input.split('/place/')[1];
+      if (parts) {
+        queryName = decodeURIComponent(parts.split('/')[0].replace(/\+/g, ' '));
       }
     }
-    
-    // Güvenli doğrudan arama yorum popup bağlantısı
-    const autoLink = `https://www.google.com/search?q=${encodeURIComponent(cleanQuery + ' yorumlar')}&ludocid=search`;
-    setFormData(prev => ({ ...prev, google_review_link: input.startsWith('http') ? input : autoLink }));
-    setRawLinkInput('');
+
+    if (!queryName && !input.startsWith('http')) {
+      queryName = input;
+    }
+
+    // Doğrudan Google arama yorum modalı tetikleyicisi
+    if (queryName) {
+      const triggerUrl = `https://www.google.com/search?q=${encodeURIComponent(queryName + ' ' + formData.konum)}#lrd=0x0:0x0,3,,,`;
+      setFormData(prev => ({ ...prev, google_review_link: triggerUrl }));
+      setRawLinkInput('');
+    } else {
+      setFormData(prev => ({ ...prev, google_review_link: input }));
+      setRawLinkInput('');
+    }
   };
 
   const fetchBusinesses = async () => {
@@ -207,7 +214,7 @@ export default function SuperAdminPage() {
       banner_url: b.banner_url || SECTORS[0].images[0].url
     });
     setCreatedResult(null);
-    window.scrollTo({ top: 300, behavior: 'smooth' });
+    window.scrollTo({ top: 350, behavior: 'smooth' });
   };
 
   const handleCancelEdit = () => {
@@ -221,7 +228,6 @@ export default function SuperAdminPage() {
     setCreatedResult(null);
 
     if (editingId) {
-      // Güncelleme İşlemi
       const { data, error } = await supabase
         .from('isletmeler')
         .update(formData)
@@ -240,7 +246,6 @@ export default function SuperAdminPage() {
         fetchBusinesses();
       }
     } else {
-      // Yeni Ekleme İşlemi
       const { data, error } = await supabase
         .from('isletmeler')
         .insert([formData])
@@ -333,7 +338,7 @@ export default function SuperAdminPage() {
 
         {/* Başarıyla Oluşturulan İşletme Kartı */}
         {createdResult && (
-          <div className="bg-emerald-950/40 border border-emerald-500/30 rounded-3xl p-6 text-white space-y-4 animate-in fade-in">
+          <div className="bg-emerald-950/40 border border-emerald-500/30 rounded-3xl p-6 text-white space-y-4">
             <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm">
               <Check className="w-5 h-5" />
               <span>Tebrikler! "{createdResult.isletme_adi}" Başarıyla Oluşturuldu!</span>
@@ -378,29 +383,43 @@ export default function SuperAdminPage() {
           </div>
         )}
 
-        {/* HIZLI GOOGLE LINK DÖNÜŞTÜRÜCÜ (YÖNTEM A) */}
+        {/* HIZLI GOOGLE LINK DÖNÜŞTÜRÜCÜ & REHBERİ */}
         <div className="bg-neutral-900/60 border border-amber-400/20 rounded-3xl p-5 shadow-lg">
-          <div className="flex items-center gap-2 mb-2 text-amber-400 font-bold text-sm">
-            <Wand2 className="w-4 h-4" />
-            <span>Hızlı Google Yorum Linki Dönüştürücü (Yöntem A)</span>
+          <div className="flex items-center justify-between gap-2 mb-2">
+            <div className="flex items-center gap-2 text-amber-400 font-bold text-sm">
+              <Wand2 className="w-4 h-4" />
+              <span>Google Doğrudan Yorum Linki Oluşturucu</span>
+            </div>
+            <a 
+              href="https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder" 
+              target="_blank" 
+              rel="noreferrer"
+              className="text-[11px] text-neutral-400 hover:text-amber-300 flex items-center gap-1 underline underline-offset-2"
+            >
+              <HelpCircle className="w-3.5 h-3.5" />
+              <span>Place ID Bulucu</span>
+            </a>
           </div>
+          
           <p className="text-xs text-neutral-400 mb-3">
-            Google Haritalar'dan aldığın herhangi bir paylaşım linkini (`maps.app.goo.gl` vb.) buraya yapıştırıp dönüştür; otomatik olarak formdaki alana aktarılır.
+            Haritalar linkini, dükkan adını veya <strong>Place ID (ChIJ...)</strong> yapıştırın. Sistem doğrudan yorum penceresini açacak bağlantıyı üretir.
           </p>
-          <div className="flex gap-2">
+          
+          {/* Responsive Flex Kapsayıcısı (Mobilde taşma yapmaz) */}
+          <div className="flex flex-col sm:flex-row gap-2 w-full">
             <input
               type="text"
-              placeholder="Örn: https://maps.app.goo.gl/... veya Google Maps URL'si yapıştırın"
+              placeholder="Örn: Paşa Döner Kadıköy veya ChIJ..."
               value={rawLinkInput}
               onChange={(e) => setRawLinkInput(e.target.value)}
-              className="flex-1 bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400 font-mono transition"
+              className="w-full sm:flex-1 bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400 font-mono transition"
             />
             <button
               type="button"
               onClick={handleConvertGoogleLink}
-              className="bg-amber-400 hover:bg-amber-300 text-black text-xs font-bold px-4 py-2.5 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap"
+              className="w-full sm:w-auto bg-amber-400 hover:bg-amber-300 text-black text-xs font-bold px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 shrink-0"
             >
-              <span>Dönüştür & Forma Aktar</span>
+              <span>Dönüştür & Aktar</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -455,11 +474,11 @@ export default function SuperAdminPage() {
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block text-xs font-semibold text-neutral-300 mb-1.5">Google Harita / Yorum Linki *</label>
+                <label className="block text-xs font-semibold text-neutral-300 mb-1.5">Google Harita / Doğrudan Yorum Linki *</label>
                 <input
                   type="url"
                   required
-                  placeholder="https://g.page/r/.../review veya writereview linki"
+                  placeholder="https://search.google.com/local/writereview?placeid=... veya https://g.page/r/.../review"
                   value={formData.google_review_link}
                   onChange={(e) => setFormData({ ...formData, google_review_link: e.target.value })}
                   className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400 font-mono transition"
@@ -502,7 +521,7 @@ export default function SuperAdminPage() {
                 <label className="block text-xs font-semibold text-neutral-300 mb-1.5">Instagram Kullanıcı Adı (Opsiyonel)</label>
                 <input
                   type="text"
-                  placeholder="pasadoner"
+                  placeholder="pasadoner (başında @ olmadan)"
                   value={formData.instagram_kullanici}
                   onChange={(e) => setFormData({ ...formData, instagram_kullanici: e.target.value.replace('@', '') })}
                   className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400 transition"
@@ -510,7 +529,7 @@ export default function SuperAdminPage() {
               </div>
             </div>
 
-            {/* SEKTÖRLERE ÖZEL 3'ERLİ GÖRSEL SEÇİM KATALOĞU */}
+            {/* GÖRSEL KATALOĞU (YENİLENMİŞ JOKER & SEKTÖRLER) */}
             <div className="border-t border-neutral-800 pt-6">
               <label className="block text-xs font-semibold text-neutral-300 mb-2 flex items-center justify-between">
                 <div className="flex items-center gap-1.5">
@@ -520,8 +539,7 @@ export default function SuperAdminPage() {
                 <span className="text-[11px] text-neutral-500 font-normal">Fotoğrafa tıklayarak anında seçebilirsiniz</span>
               </label>
 
-              {/* Sektör Grupları */}
-              <div className="space-y-4 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
+              <div className="space-y-4 max-h-96 overflow-y-auto pr-2">
                 {SECTORS.map((sec, sIdx) => (
                   <div key={sIdx} className="bg-neutral-950 p-3 rounded-2xl border border-neutral-800/80">
                     <span className="text-xs font-bold text-neutral-300 mb-2 block">{sec.category}</span>
@@ -559,7 +577,7 @@ export default function SuperAdminPage() {
               <div className="mt-3">
                 <input
                   type="url"
-                  placeholder="Veya Google Haritalar'dan aldığınız özel görsel URL'sini yapıştırın..."
+                  placeholder="Veya özel bir görsel linki yapıştırın..."
                   value={formData.banner_url}
                   onChange={(e) => setFormData({ ...formData, banner_url: e.target.value })}
                   className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2 text-xs text-neutral-300 focus:outline-none focus:border-amber-400 transition font-mono"
@@ -609,7 +627,6 @@ export default function SuperAdminPage() {
                   editingId === b.id ? 'border-amber-400 bg-neutral-900/80' : 'border-neutral-800/80 hover:border-neutral-700'
                 }`}
               >
-                {/* Tıklayınca Forma Yükler */}
                 <div 
                   onClick={() => handleStartEdit(b)}
                   className="flex items-center gap-3 cursor-pointer flex-1"
